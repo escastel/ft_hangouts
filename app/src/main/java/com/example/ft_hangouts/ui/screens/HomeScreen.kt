@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.ft_hangouts.ui.components.ContactCard
 import com.example.ft_hangouts.ui.theme.Ft_hangoutsTheme
 
 @Composable
@@ -26,44 +27,7 @@ fun HomeScreen(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier.padding(16.dp)
     ) {
-        Card(
-            elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp)
-            ){
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier
-                        .size(56.dp)
-                        .background(
-                            color = Color.Cyan,
-                            shape = CircleShape
-                        )
-                ){
-                    Text(
-                        text = "C"
-                    )
-                }
-
-                Spacer(modifier = Modifier.width(16.dp))
-
-                Column {
-                    Text(
-                        text = "Mi contacto"
-                    )
-                    Text(
-                        text = "327848274"
-                    )
-                }
-            }
-        }
+        ContactCard()
     }
 }
 
