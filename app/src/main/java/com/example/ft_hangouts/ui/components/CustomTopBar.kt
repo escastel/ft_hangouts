@@ -1,10 +1,10 @@
 package com.example.ft_hangouts.ui.components
 
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
@@ -16,9 +16,8 @@ import com.example.ft_hangouts.ui.theme.Ft_hangoutsTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CenteredTopBar() {
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
-    CenterAlignedTopAppBar(
+fun CustomTopBar() {
+    TopAppBar(
         title = {
             Text(
                 text = "ft_hangouts",
@@ -27,6 +26,14 @@ fun CenteredTopBar() {
             )
         },
         actions = {
+            //TODO: Acción del boton para añadir un contacto
+            IconButton(onClick = {}) {
+                Icon(
+                    painter = painterResource(R.drawable.ic_add),
+                    contentDescription = ""
+                )
+            }
+            //TODO: Accion del boton para desplegar el menu
             IconButton(onClick = {}) {
                 Icon(
                     painter = painterResource(R.drawable.ic_menu),
@@ -34,14 +41,13 @@ fun CenteredTopBar() {
                 )
             }
         },
-        scrollBehavior = scrollBehavior,
     )
 }
 
 @Preview
 @Composable
-fun CenteredTopBarPreview(){
+fun CustomTopBarPreview(){
     Ft_hangoutsTheme {
-        CenteredTopBar()
+        CustomTopBar()
     }
 }

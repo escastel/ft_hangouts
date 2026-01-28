@@ -7,7 +7,7 @@ import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.ft_hangouts.ui.components.CenteredTopBar
+import com.example.ft_hangouts.ui.components.CustomTopBar
 import com.example.ft_hangouts.ui.screens.HomeScreen
 import com.example.ft_hangouts.ui.theme.Ft_hangoutsTheme
 
@@ -27,7 +27,7 @@ fun MainApp(windowSize: WindowSizeClass) {
 fun MainAppPortrait() {
     Ft_hangoutsTheme {
         Scaffold(
-            topBar = { CenteredTopBar() }
+            topBar = { CustomTopBar() }
         ) { padding ->
             HomeScreen(modifier = Modifier.padding(padding))
         }
@@ -38,7 +38,7 @@ fun MainAppPortrait() {
 fun MainAppLandscape() {
     Ft_hangoutsTheme {
         Scaffold(
-            topBar = { CenteredTopBar() }
+            topBar = { CustomTopBar() }
         ) { padding ->
             HomeScreen(modifier = Modifier.padding(padding))
         }
