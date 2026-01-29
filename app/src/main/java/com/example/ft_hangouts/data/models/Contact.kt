@@ -8,4 +8,4 @@ data class Contact(
     val address: String = "",
     val notes: String = "",
     val createdAt: Long = System.currentTimeMillis()
-) {}
+)
