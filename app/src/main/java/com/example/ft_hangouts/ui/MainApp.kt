@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.ft_hangouts.ui.components.CustomTopBar
+import com.example.ft_hangouts.ui.components.FloatinButton
 import com.example.ft_hangouts.ui.screens.HomeScreen
 import com.example.ft_hangouts.ui.theme.Ft_hangoutsTheme
 
@@ -27,7 +28,8 @@ fun MainApp(windowSize: WindowSizeClass) {
 fun MainAppPortrait() {
     Ft_hangoutsTheme {
         Scaffold(
-            topBar = { CustomTopBar() }
+            topBar = { CustomTopBar() },
+            floatingActionButton = { FloatinButton({}) }
         ) { padding ->
             HomeScreen(modifier = Modifier.padding(padding))
         }
@@ -38,7 +40,8 @@ fun MainAppPortrait() {
 fun MainAppLandscape() {
     Ft_hangoutsTheme {
         Scaffold(
-            topBar = { CustomTopBar() }
+            topBar = { CustomTopBar() },
+            floatingActionButton = { FloatinButton({}) }
         ) { padding ->
             HomeScreen(modifier = Modifier.padding(padding))
         }
