@@ -30,13 +30,16 @@
     <string name="label_address">Dirección</string>
     <string name="label_notes">Nota</string>
 
-    <string name="error_required_fields">Nombre y Teléfono son obligatorios</string>
+    <string name="error_required_fields">Este campo es obligatorio</string>
+    <string name="error_invalid_email">Formato de correo inválido</string>
+    <string name="error_invalid_phone">Formato de teléfono inválido</string>
+
     <string name="contact_saved">Contacto guardado</string>
     <string name="contact_updated">Contacto actualizado</string>
     <string name="error_sms_send">Error al enviar SMS: %1$s</string>
     <string name="error_no_phone">El contacto no tiene número de teléfono</string>
-    <string name="permissions_granted">Permisos completos</string>
-    <string name="background_msg">App en background desde: %1$s</string>
+    <string name="permissions_granted">Permisos concedidos</string>
+    <string name="background_msg">App en segundo plano desde: %1$s</string>
     <string name="no_contacts">No hay contactos guardados</string>
     <string name="no_messages">No hay mensajes recientes</string>
 

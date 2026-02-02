@@ -11,7 +11,6 @@ import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.ft_hangouts.navigation.NavDestination
@@ -162,18 +161,4 @@ fun MainAppLandscape(navController: NavHostController) {
             }
         }
     }
-}
-
-@Preview(widthDp = 360, heightDp = 640)
-@Composable
-fun MainAppPortraitPreview() {
-    val navController = rememberNavController()
-    MainAppPortrait(navController)
-}
-
-@Preview(widthDp = 640, heightDp = 360)
-@Composable
-fun MainAppLandscapePreview() {
-    val navController = rememberNavController()
-    MainAppLandscape(navController)
 }

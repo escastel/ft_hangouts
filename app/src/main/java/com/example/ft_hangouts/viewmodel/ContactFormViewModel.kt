@@ -2,6 +2,7 @@ package com.example.ft_hangouts.viewmodel
 
 import android.app.Application
 import android.content.Context
+import android.util.Patterns
 import android.widget.Toast
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -40,7 +41,8 @@ class ContactFormViewModel(application: Application) : AndroidViewModel(applicat
             notes = notes,
             imageUri = imageUri,
             firstNameError = if (firstName.isNotBlank()) null else contactFormUiState.firstNameError,
-            phoneNumberError = if (phoneNumber.isNotBlank()) null else contactFormUiState.phoneNumberError
+            phoneNumberError = if (phoneNumber.isNotBlank()) null else contactFormUiState.phoneNumberError,
+            emailError = if (email.isNotBlank()) null else contactFormUiState.emailError
         )
     }
 
@@ -68,20 +70,30 @@ class ContactFormViewModel(application: Application) : AndroidViewModel(applicat
     }
 
     private fun validate(): Boolean {
-        val firstNameBlank = contactFormUiState.firstName.isBlank()
-        val phoneBlank = contactFormUiState.phoneNumber.isBlank()
+        val uiState = contactFormUiState
+        val firstNameError = if (uiState.firstName.isBlank()) R.string.error_required_fields else null
         
-        contactFormUiState = contactFormUiState.copy(
-            firstNameError = if (firstNameBlank) "First name is required" else null,
-            phoneNumberError = if (phoneBlank) "Phone number is required" else null
+        val phoneNumberError = when {
+            uiState.phoneNumber.isBlank() -> R.string.error_required_fields
+            !Patterns.PHONE.matcher(uiState.phoneNumber).matches() -> R.string.error_invalid_phone
+            else -> null
+        }
+
+        val emailError = if (uiState.email.isNotBlank() && !Patterns.EMAIL_ADDRESS.matcher(uiState.email).matches()) {
+            R.string.error_invalid_email
+        } else null
+
+        contactFormUiState = uiState.copy(
+            firstNameError = firstNameError,
+            phoneNumberError = phoneNumberError,
+            emailError = emailError
         )
-        
-        return !firstNameBlank && !phoneBlank
+
+        return firstNameError == null && phoneNumberError == null && emailError == null
     }
 
     fun onSaveContact(context: Context, onSuccess: () -> Unit) {
         if (!validate()) {
-            Toast.makeText(context, context.getString(R.string.error_required_fields), Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -105,7 +117,6 @@ class ContactFormViewModel(application: Application) : AndroidViewModel(applicat
 
     fun onUpdateContact(contactId: Long, context: Context, onSuccess: () -> Unit) {
         if (!validate()) {
-            Toast.makeText(context, context.getString(R.string.error_required_fields), Toast.LENGTH_SHORT).show()
             return
         }
 

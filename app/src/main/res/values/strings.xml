@@ -30,7 +30,10 @@
     <string name="label_address">Address</string>
     <string name="label_notes">Notes</string>
 
-    <string name="error_required_fields">First name and Phone are required</string>
+    <string name="error_required_fields">This field is required</string>
+    <string name="error_invalid_email">Invalid email format</string>
+    <string name="error_invalid_phone">Invalid phone number format</string>
+
     <string name="contact_saved">Contact saved</string>
     <string name="contact_updated">Contact updated</string>
     <string name="error_sms_send">Error sending SMS: %1$s</string>
