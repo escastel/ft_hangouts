@@ -6,7 +6,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import com.example.ft_hangouts.R
+import com.example.ft_hangouts.ui.theme.Ft_hangoutsTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -41,4 +43,14 @@ fun CustomTopBar(
             actionIconContentColor = MaterialTheme.colorScheme.onPrimary
         )
     )
+}
+
+@Preview
+@Composable
+fun CustomTopBarPreview(){
+    Ft_hangoutsTheme {
+        CustomTopBar(
+            title = "Contacts"
+        )
+    }
 }

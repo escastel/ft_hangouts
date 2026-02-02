@@ -65,13 +65,11 @@ fun BottomNavigation(
     }
 }
 
-@Preview(showBackground = true, backgroundColor = 0xFFF5F0EE)
+@Preview(showBackground = true)
 @Composable
 fun BottomNavigationPreview() {
     val navController = rememberNavController()
     Ft_hangoutsTheme {
-       BottomNavigation(
-            navController
-        )
+       BottomNavigation(navController)
     }
 }

@@ -10,7 +10,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
+import com.example.ft_hangouts.R
+import com.example.ft_hangouts.ui.theme.Ft_hangoutsTheme
 
 @Composable
 fun InputField(
@@ -47,4 +51,18 @@ fun InputField(
             unfocusedBorderColor = MaterialTheme.colorScheme.outline
         )
     )
+}
+
+@Preview (showBackground = true)
+@Composable
+fun InputFieldPreview(){
+    Ft_hangoutsTheme {
+        InputField(
+            value = "",
+            onValueChange = {},
+            label = stringResource(R.string.label_name),
+            icon = R.drawable.ic_person,
+            isRequired = true
+        )
+    }
 }

@@ -109,7 +109,7 @@ fun ContactCard(
 fun ContactCardPreview(){
     Ft_hangoutsTheme {
         ContactCard(
-            contact = Contact(1, "Mimi", "65423214", "dsdaad@gmaail.com"),
+            contact = Contact(1, "Name", "65423214", "example@gmail.com"),
             onClick = {}
         )
     }

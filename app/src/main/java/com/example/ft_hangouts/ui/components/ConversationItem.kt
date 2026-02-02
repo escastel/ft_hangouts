@@ -22,14 +22,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ft_hangouts.R
 import com.example.ft_hangouts.data.models.Conversation
+import com.example.ft_hangouts.ui.theme.Ft_hangoutsTheme
 import com.example.ft_hangouts.utils.DateUtils
 
 @Composable
-fun ConversationItem(chat: Conversation, onClick: () -> Unit) {
+fun ConversationItem(
+    chat: Conversation,
+    onClick: () -> Unit
+) {
     val isUnknown = chat.contactName.startsWith("+") ||
             chat.contactName.firstOrNull()?.isDigit() == true
     Row(
@@ -93,6 +98,24 @@ fun ConversationItem(chat: Conversation, onClick: () -> Unit) {
             text = DateUtils.formatTime(chat.timestamp),
             style = MaterialTheme.typography.labelSmall,
             color = MaterialTheme.colorScheme.primary
+        )
+    }
+}
+
+@Preview (showBackground = true)
+@Composable
+fun ConversationItemPreview(){
+    val timestamp = System.currentTimeMillis()
+    Ft_hangoutsTheme {
+        ConversationItem(
+            chat = Conversation(
+                contactId = 0,
+                contactName = "Name",
+                lastMessage = "Hello",
+                timestamp = timestamp,
+                contactImageUri = null
+            ),
+            onClick = {}
         )
     }
 }

@@ -23,6 +23,8 @@ fun FloatingButton(onClick: () -> Unit) {
 @Composable
 fun FloatingButtonPreview(){
     Ft_hangoutsTheme {
-        FloatingButton( onClick = {} )
+        FloatingButton(
+            onClick = {}
+        )
     }
 }

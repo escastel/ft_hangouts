@@ -13,9 +13,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ft_hangouts.data.models.Message
+import com.example.ft_hangouts.ui.theme.Ft_hangoutsTheme
 import com.example.ft_hangouts.utils.DateUtils
 
 @Composable
@@ -50,6 +52,23 @@ fun MessageBubble(message: Message) {
             fontSize = 10.sp,
             color = Color.Gray,
             modifier = Modifier.padding(top = 4.dp, start = 4.dp, end = 4.dp)
+        )
+    }
+}
+
+@Preview (showBackground = true)
+@Composable
+fun MessageBubblePreview(){
+    val timestamp = System.currentTimeMillis()
+    Ft_hangoutsTheme {
+        MessageBubble(
+            message = Message(
+                id = 0,
+                contactId = 0,
+                content = "Hello",
+                timestamp = timestamp,
+                isReceived = true
+            )
         )
     }
 }

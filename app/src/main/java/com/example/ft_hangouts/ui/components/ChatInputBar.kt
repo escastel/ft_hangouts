@@ -20,8 +20,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.ft_hangouts.R
+import com.example.ft_hangouts.ui.theme.Ft_hangoutsTheme
 
 @Composable
 fun ChatInputBar(
@@ -67,5 +69,17 @@ fun ChatInputBar(
                 )
             }
         }
+    }
+}
+
+@Preview (showBackground = true)
+@Composable
+fun ChatInputBarPreview(){
+    Ft_hangoutsTheme {
+        ChatInputBar(
+            text = "",
+            onTextChange = {},
+            onSendClick = {}
+        )
     }
 }
