@@ -60,7 +60,7 @@ fun AddContactScreen(
             verticalArrangement = Arrangement.Center
         ) {
             AvatarInput(
-                name = uiState.name,
+                name = uiState.firstName,
                 imageUri = uiState.imageUri,
                 onImageSelected = { newUri -> viewModel.updateContactForm(imageUri = newUri) },
                 onImageRemoved = { viewModel.updateContactForm(imageUri = null) },
@@ -70,15 +70,19 @@ fun AddContactScreen(
             Spacer(modifier = Modifier.height(30.dp))
 
             ContactForm(
-                name = uiState.name, 
-                onNameChange = { viewModel.updateContactForm(name = it) },
-                phoneNumber = uiState.phoneNumber, 
+                firstName = uiState.firstName,
+                onFirstNameChange = { viewModel.updateContactForm(firstName = it) },
+                firstNameError = uiState.firstNameError,
+                lastName = uiState.lastName,
+                onLastNameChange = { viewModel.updateContactForm(lastName = it) },
+                phoneNumber = uiState.phoneNumber,
                 onPhoneChange = { viewModel.updateContactForm(phoneNumber = it) },
-                email = uiState.email, 
+                phoneNumberError = uiState.phoneNumberError,
+                email = uiState.email,
                 onEmailChange = { viewModel.updateContactForm(email = it) },
-                address = uiState.address, 
+                address = uiState.address,
                 onAddressChange = { viewModel.updateContactForm(address = it) },
-                notes = uiState.notes, 
+                notes = uiState.notes,
                 onNotesChange = { viewModel.updateContactForm(notes = it) }
             )
         }

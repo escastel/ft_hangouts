@@ -23,7 +23,8 @@
     <string name="form_notes">Notas</string>
     <string name="type_message">Escribe un mensaje...</string>
 
-    <string name="label_name">Nombre</string>
+    <string name="label_first_name">Nombre</string>
+    <string name="label_last_name">Apellidos</string>
     <string name="label_phone">Teléfono</string>
     <string name="label_email">Correo electrónico</string>
     <string name="label_address">Dirección</string>

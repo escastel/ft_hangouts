@@ -23,7 +23,8 @@ class ContactFormViewModel(application: Application) : AndroidViewModel(applicat
         private set
 
     fun updateContactForm(
-        name: String = contactFormUiState.name,
+        firstName: String = contactFormUiState.firstName,
+        lastName: String = contactFormUiState.lastName,
         phoneNumber: String = contactFormUiState.phoneNumber,
         email: String = contactFormUiState.email,
         address: String = contactFormUiState.address,
@@ -31,12 +32,15 @@ class ContactFormViewModel(application: Application) : AndroidViewModel(applicat
         imageUri: String? = contactFormUiState.imageUri
     ) {
         contactFormUiState = contactFormUiState.copy(
-            name = name,
+            firstName = firstName,
+            lastName = lastName,
             phoneNumber = phoneNumber,
             email = email,
             address = address,
             notes = notes,
-            imageUri = imageUri
+            imageUri = imageUri,
+            firstNameError = if (firstName.isNotBlank()) null else contactFormUiState.firstNameError,
+            phoneNumberError = if (phoneNumber.isNotBlank()) null else contactFormUiState.phoneNumberError
         )
     }
 
@@ -50,7 +54,8 @@ class ContactFormViewModel(application: Application) : AndroidViewModel(applicat
             withContext(Dispatchers.Main) {
                 contact?.let {
                     contactFormUiState = ContactUiState(
-                        name = it.name,
+                        firstName = it.firstName,
+                        lastName = it.lastName,
                         phoneNumber = it.phoneNumber,
                         email = it.email,
                         address = it.address,
@@ -62,15 +67,28 @@ class ContactFormViewModel(application: Application) : AndroidViewModel(applicat
         }
     }
 
+    private fun validate(): Boolean {
+        val firstNameBlank = contactFormUiState.firstName.isBlank()
+        val phoneBlank = contactFormUiState.phoneNumber.isBlank()
+        
+        contactFormUiState = contactFormUiState.copy(
+            firstNameError = if (firstNameBlank) "First name is required" else null,
+            phoneNumberError = if (phoneBlank) "Phone number is required" else null
+        )
+        
+        return !firstNameBlank && !phoneBlank
+    }
+
     fun onSaveContact(context: Context, onSuccess: () -> Unit) {
-        if (contactFormUiState.name.isBlank() || contactFormUiState.phoneNumber.isBlank()) {
+        if (!validate()) {
             Toast.makeText(context, context.getString(R.string.error_required_fields), Toast.LENGTH_SHORT).show()
             return
         }
 
         viewModelScope.launch(Dispatchers.IO) {
             val newContact = Contact(
-                name = contactFormUiState.name,
+                firstName = contactFormUiState.firstName,
+                lastName = contactFormUiState.lastName,
                 phoneNumber = contactFormUiState.phoneNumber,
                 email = contactFormUiState.email,
                 address = contactFormUiState.address,
@@ -86,7 +104,7 @@ class ContactFormViewModel(application: Application) : AndroidViewModel(applicat
     }
 
     fun onUpdateContact(contactId: Long, context: Context, onSuccess: () -> Unit) {
-        if (contactFormUiState.name.isBlank() || contactFormUiState.phoneNumber.isBlank()) {
+        if (!validate()) {
             Toast.makeText(context, context.getString(R.string.error_required_fields), Toast.LENGTH_SHORT).show()
             return
         }
@@ -94,7 +112,8 @@ class ContactFormViewModel(application: Application) : AndroidViewModel(applicat
         viewModelScope.launch(Dispatchers.IO) {
             val updatedContact = Contact(
                 id = contactId,
-                name = contactFormUiState.name,
+                firstName = contactFormUiState.firstName,
+                lastName = contactFormUiState.lastName,
                 phoneNumber = contactFormUiState.phoneNumber,
                 email = contactFormUiState.email,
                 address = contactFormUiState.address,

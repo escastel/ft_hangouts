@@ -12,11 +12,12 @@ class AppDatabase(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
 
     companion object {
         private const val DATABASE_NAME = "ft_hangouts.db"
-        private const val DATABASE_VERSION = 3
+        private const val DATABASE_VERSION = 4
 
         const val TABLE_CONTACTS = "contacts"
         const val COLUMN_CNT_ID = "id"
-        const val COLUMN_CNT_NAME = "name"
+        const val COLUMN_CNT_FIRST_NAME = "first_name"
+        const val COLUMN_CNT_LAST_NAME = "last_name"
         const val COLUMN_CNT_PHONE = "phone"
         const val COLUMN_CNT_EMAIL = "email"
         const val COLUMN_CNT_ADDRESS = "address"
@@ -35,7 +36,8 @@ class AppDatabase(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
         val createTableQuery = """
             CREATE TABLE $TABLE_CONTACTS (
                 $COLUMN_CNT_ID INTEGER PRIMARY KEY AUTOINCREMENT,
-                $COLUMN_CNT_NAME TEXT,
+                $COLUMN_CNT_FIRST_NAME TEXT,
+                $COLUMN_CNT_LAST_NAME TEXT,
                 $COLUMN_CNT_PHONE TEXT,
                 $COLUMN_CNT_EMAIL TEXT,
                 $COLUMN_CNT_ADDRESS TEXT,
@@ -67,7 +69,8 @@ class AppDatabase(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
     fun createContact(contact: Contact): Long {
         val db = this.writableDatabase
         val values = ContentValues().apply {
-            put(COLUMN_CNT_NAME, contact.name)
+            put(COLUMN_CNT_FIRST_NAME, contact.firstName)
+            put(COLUMN_CNT_LAST_NAME, contact.lastName)
             put(COLUMN_CNT_PHONE, contact.phoneNumber)
             put(COLUMN_CNT_EMAIL, contact.email)
             put(COLUMN_CNT_ADDRESS, contact.address)
@@ -89,7 +92,8 @@ class AppDatabase(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
             do {
                 val contact = Contact(
                     id = cursor.getLong(cursor.getColumnIndexOrThrow(COLUMN_CNT_ID)),
-                    name = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CNT_NAME)),
+                    firstName = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CNT_FIRST_NAME)),
+                    lastName = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CNT_LAST_NAME)),
                     phoneNumber = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CNT_PHONE)),
                     email = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CNT_EMAIL)),
                     address = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CNT_ADDRESS)),
@@ -114,7 +118,8 @@ class AppDatabase(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
         if (cursor.moveToFirst()) {
             contact = Contact(
                 id = cursor.getLong(cursor.getColumnIndexOrThrow(COLUMN_CNT_ID)),
-                name = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CNT_NAME)),
+                firstName = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CNT_FIRST_NAME)),
+                lastName = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CNT_LAST_NAME)),
                 phoneNumber = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CNT_PHONE)),
                 email = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CNT_EMAIL)),
                 address = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CNT_ADDRESS)),
@@ -129,7 +134,8 @@ class AppDatabase(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
     fun updateContact(contact: Contact): Int {
         val db = this.writableDatabase
         val values = ContentValues().apply {
-            put(COLUMN_CNT_NAME, contact.name)
+            put(COLUMN_CNT_FIRST_NAME, contact.firstName)
+            put(COLUMN_CNT_LAST_NAME, contact.lastName)
             put(COLUMN_CNT_PHONE, contact.phoneNumber)
             put(COLUMN_CNT_EMAIL, contact.email)
             put(COLUMN_CNT_ADDRESS, contact.address)
@@ -191,7 +197,7 @@ class AppDatabase(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
         val db = this.readableDatabase
 
         val query = """
-            SELECT c.$COLUMN_CNT_ID, c.$COLUMN_CNT_NAME, m.$COLUMN_MSG_CONTENT, m.$COLUMN_MSG_TIMESTAMP, c.$COLUMN_CNT_IMAGE
+            SELECT c.$COLUMN_CNT_ID, c.$COLUMN_CNT_FIRST_NAME, c.$COLUMN_CNT_LAST_NAME, m.$COLUMN_MSG_CONTENT, m.$COLUMN_MSG_TIMESTAMP, c.$COLUMN_CNT_IMAGE
             FROM $TABLE_CONTACTS c
             JOIN $TABLE_MESSAGES m ON c.$COLUMN_CNT_ID = m.$COLUMN_MSG_CONTACT_ID
             WHERE m.$COLUMN_MSG_TIMESTAMP = (
@@ -208,12 +214,14 @@ class AppDatabase(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
             do {
                 try {
                     val id = cursor.getLong(0)
-                    val name = cursor.getString(1)
-                    val content = cursor.getString(2)
-                    val time = cursor.getLong(3)
-                    val imageUri = if (!cursor.isNull(4)) cursor.getString(4) else null
+                    val firstName = cursor.getString(1)
+                    val lastName = cursor.getString(2)
+                    val content = cursor.getString(3)
+                    val time = cursor.getLong(4)
+                    val imageUri = if (!cursor.isNull(5)) cursor.getString(5) else null
 
-                    conversations.add(Conversation(id, name, content, time, imageUri))
+                    val fullName = if (lastName.isBlank()) firstName else "$firstName $lastName"
+                    conversations.add(Conversation(id, fullName, content, time, imageUri))
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }

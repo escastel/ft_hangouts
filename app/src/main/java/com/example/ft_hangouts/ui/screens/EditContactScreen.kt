@@ -2,7 +2,6 @@ package com.example.ft_hangouts.ui.screens
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,7 +9,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -63,7 +61,7 @@ fun EditContactScreen(
             verticalArrangement = Arrangement.Center
         ) {
             AvatarInput(
-                name = formState.name,
+                name = formState.firstName,
                 imageUri = formState.imageUri,
                 onImageSelected = { newUri -> viewModel.updateContactForm(imageUri = newUri) },
                 onImageRemoved = { viewModel.updateContactForm(imageUri = null) },
@@ -73,15 +71,19 @@ fun EditContactScreen(
             Spacer(modifier = Modifier.height(30.dp))
 
             ContactForm(
-                name = formState.name, 
-                onNameChange = { viewModel.updateContactForm(name = it) },
-                phoneNumber = formState.phoneNumber, 
+                firstName = formState.firstName,
+                onFirstNameChange = { viewModel.updateContactForm(firstName = it) },
+                firstNameError = formState.firstNameError,
+                lastName = formState.lastName,
+                onLastNameChange = { viewModel.updateContactForm(lastName = it) },
+                phoneNumber = formState.phoneNumber,
                 onPhoneChange = { viewModel.updateContactForm(phoneNumber = it) },
-                email = formState.email, 
+                phoneNumberError = formState.phoneNumberError,
+                email = formState.email,
                 onEmailChange = { viewModel.updateContactForm(email = it) },
-                address = formState.address, 
+                address = formState.address,
                 onAddressChange = { viewModel.updateContactForm(address = it) },
-                notes = formState.notes, 
+                notes = formState.notes,
                 onNotesChange = { viewModel.updateContactForm(notes = it) }
             )
         }

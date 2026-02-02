@@ -1,6 +1,8 @@
 package com.example.ft_hangouts.ui.components
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -12,9 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.example.ft_hangouts.R
-import com.example.ft_hangouts.ui.theme.Ft_hangoutsTheme
 
 @Composable
 fun InputField(
@@ -23,46 +24,40 @@ fun InputField(
     label: String,
     icon: Int,
     modifier: Modifier = Modifier,
+    error: String? = null,
     keyboardType: KeyboardType = KeyboardType.Text,
     singleLine: Boolean = true,
     maxLines: Int = 1,
     isRequired: Boolean = false
 ) {
-    OutlinedTextField(
-        value = value,
-        onValueChange = onValueChange,
-        label = {
-            Text(
-                text = if (isRequired) "$label *" else label
+    Column(modifier = modifier.fillMaxWidth()) {
+        OutlinedTextField(
+            value = value,
+            onValueChange = onValueChange,
+            label = {
+                Text(
+                    text = if (isRequired) "$label *" else label
+                )
+            },
+            leadingIcon = {
+                Icon(
+                    painter = painterResource(icon),
+                    contentDescription = null
+                )
+            },
+            isError = error != null,
+            supportingText = if (error != null) {
+                { Text(text = error, color = MaterialTheme.colorScheme.error) }
+            } else null,
+            singleLine = singleLine,
+            maxLines = maxLines,
+            keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
+            modifier = Modifier.fillMaxWidth(),
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = MaterialTheme.colorScheme.primary,
+                unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+                errorBorderColor = MaterialTheme.colorScheme.error
             )
-        },
-        leadingIcon = {
-            Icon(
-                painter = painterResource(icon),
-                contentDescription = null
-            )
-        },
-        singleLine = singleLine,
-        maxLines = maxLines,
-        keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
-        modifier = modifier.fillMaxWidth(),
-        colors = OutlinedTextFieldDefaults.colors(
-            focusedBorderColor = MaterialTheme.colorScheme.primary,
-            unfocusedBorderColor = MaterialTheme.colorScheme.outline
-        )
-    )
-}
-
-@Preview (showBackground = true)
-@Composable
-fun InputFieldPreview(){
-    Ft_hangoutsTheme {
-        InputField(
-            value = "",
-            onValueChange = {},
-            label = stringResource(R.string.label_name),
-            icon = R.drawable.ic_person,
-            isRequired = true
         )
     }
 }

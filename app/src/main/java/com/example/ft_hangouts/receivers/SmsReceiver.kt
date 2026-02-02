@@ -40,7 +40,8 @@ class SmsReceiver : BroadcastReceiver() {
                         existingContact.id
                     } else {
                         val newContact = Contact(
-                            name = senderPhone,
+                            firstName = senderPhone,
+                            lastName = "",
                             phoneNumber = senderPhone,
                             email = "",
                             address = "",

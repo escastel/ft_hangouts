@@ -80,7 +80,7 @@ fun ChatScreen(
     Scaffold(
         topBar = {
             CustomTopBar(
-                title = uiState.contact?.name ?: stringResource(R.string.chat_default_title),
+                title = uiState.contact?.fullName ?: stringResource(R.string.chat_default_title),
                 onBackClick = { navController.popBackStack() },
                 onColorSelected = null
             )

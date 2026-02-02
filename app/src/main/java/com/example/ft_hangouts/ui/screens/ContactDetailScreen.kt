@@ -50,8 +50,8 @@ fun ContactDetailScreen(
         return
     }
 
-    val isUnknown = contact.name.startsWith("+") == true ||
-            contact.name.firstOrNull()?.isDigit() == true
+    val isUnknown = contact.fullName.startsWith("+") ||
+            contact.fullName.firstOrNull()?.isDigit() == true
 
     Scaffold(
         topBar = {
@@ -91,10 +91,10 @@ fun ContactDetailScreen(
             ) {
                 if (!contact.imageUri.isNullOrBlank()) {
                     ContactAvatar(
-                        name = contact.name,
+                        name = contact.firstName,
                         imageUri = contact.imageUri,
                         size = 150.dp,
-                        isUnknown = contact.name.firstOrNull()?.isDigit() == true || contact.name.startsWith("+")
+                        isUnknown = contact.firstName.firstOrNull()?.isDigit() == true || contact.firstName.startsWith("+")
                     )
                 } else if (isUnknown) {
                     Icon(
@@ -105,7 +105,7 @@ fun ContactDetailScreen(
                     )
                 } else {
                     Text(
-                        text = contact.name.take(1).uppercase(),
+                        text = contact.firstName.take(1).uppercase(),
                         fontSize = 40.sp,
                         color = MaterialTheme.colorScheme.onPrimary
                     )
@@ -114,7 +114,7 @@ fun ContactDetailScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            Text(text = contact.name, style = MaterialTheme.typography.headlineMedium)
+            Text(text = contact.fullName, style = MaterialTheme.typography.headlineMedium)
             Text(text = contact.phoneNumber, style = MaterialTheme.typography.bodyLarge, color = Color.Gray)
 
             Spacer(modifier = Modifier.height(32.dp))

@@ -23,13 +23,14 @@
     <string name="form_notes">Notes</string>
     <string name="type_message">Type a message...</string>
 
-    <string name="label_name">Name</string>
+    <string name="label_first_name">First Name</string>
+    <string name="label_last_name">Last Name</string>
     <string name="label_phone">Phone number</string>
     <string name="label_email">Email</string>
     <string name="label_address">Address</string>
     <string name="label_notes">Notes</string>
 
-    <string name="error_required_fields">Name and Phone are required</string>
+    <string name="error_required_fields">First name and Phone are required</string>
     <string name="contact_saved">Contact saved</string>
     <string name="contact_updated">Contact updated</string>
     <string name="error_sms_send">Error sending SMS: %1$s</string>
