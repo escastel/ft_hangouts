@@ -25,6 +25,7 @@ import com.example.ft_hangouts.R
 import com.example.ft_hangouts.ui.components.ContactAvatar
 import com.example.ft_hangouts.ui.components.CustomTopBar
 import com.example.ft_hangouts.ui.components.InfoRow
+import com.example.ft_hangouts.ui.components.ContactDetailBottomBar
 import com.example.ft_hangouts.viewmodel.AppViewModel
 
 @SuppressLint("LocalContextGetResourceValueCall")
@@ -61,49 +62,13 @@ fun ContactDetailScreen(
             )
         },
         bottomBar = {
-            //TODO: Separar en un componente individual
-            BottomAppBar(
-                actions = {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceEvenly,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        IconButton(onClick = {
-                            viewModel.onCallContact(contact.phoneNumber, context)
-                        }) {
-                            Icon(
-                                painter = painterResource(R.drawable.ic_call),
-                                contentDescription = stringResource(R.string.call),
-                                tint = MaterialTheme.colorScheme.primary
-                            )
-                        }
-                        IconButton(onClick = { navController.navigate("chat/${contact.id}") }) {
-                            Icon(
-                                painter = painterResource(R.drawable.ic_email),
-                                contentDescription = stringResource(R.string.sms),
-                                tint = MaterialTheme.colorScheme.primary)
-                        }
-
-                        IconButton(onClick = { navController.navigate("editContact/${contact.id}") }) {
-                            Icon(
-                                painter = painterResource(R.drawable.ic_edit),
-                                contentDescription = stringResource(R.string.edit),
-                                tint = MaterialTheme.colorScheme.primary
-                            )
-                        }
-
-                        IconButton(onClick = {
-                            viewModel.onDeleteContact(contact.id) {
-                                navController.popBackStack()
-                            }
-                        }) {
-                            Icon(
-                                painter = painterResource(R.drawable.ic_delete),
-                                contentDescription = stringResource(R.string.delete),
-                                tint = MaterialTheme.colorScheme.primary
-                            )
-                        }
+            ContactDetailBottomBar(
+                onCallClick = { viewModel.onCallContact(contact.phoneNumber, context) },
+                onChatClick = { navController.navigate("chat/${contact.id}") },
+                onEditClick = { navController.navigate("editContact/${contact.id}") },
+                onDeleteClick = {
+                    viewModel.onDeleteContact(contact.id) {
+                        navController.popBackStack()
                     }
                 }
             )
