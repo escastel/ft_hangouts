@@ -27,14 +27,14 @@ import com.example.ft_hangouts.R
 import com.example.ft_hangouts.ui.components.CustomTopBar
 import com.example.ft_hangouts.ui.components.MessageBubble
 import com.example.ft_hangouts.ui.components.ChatInputBar
-import com.example.ft_hangouts.viewmodel.AppViewModel
+import com.example.ft_hangouts.viewmodel.ChatViewModel
 
 @SuppressLint("LocalContextGetResourceValueCall")
 @Composable
 fun ChatScreen(
     contactId: Long,
     navController: NavController,
-    viewModel: AppViewModel = viewModel()
+    viewModel: ChatViewModel = viewModel()
 ) {
     val uiState = viewModel.chatUiState
     val context = LocalContext.current

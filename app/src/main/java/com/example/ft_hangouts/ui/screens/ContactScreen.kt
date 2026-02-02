@@ -15,13 +15,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.ft_hangouts.R
 import com.example.ft_hangouts.ui.components.ContactCard
-import com.example.ft_hangouts.viewmodel.AppViewModel
+import com.example.ft_hangouts.viewmodel.ContactViewModel
 
 @Composable
 fun ContactScreen(
     onCardClick: (Long) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: AppViewModel = viewModel(),
+    viewModel: ContactViewModel = viewModel(),
 ) {
     val uiState = viewModel.contactListUiState
 

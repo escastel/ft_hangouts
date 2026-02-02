@@ -16,12 +16,12 @@ import androidx.navigation.NavController
 import com.example.ft_hangouts.R
 import com.example.ft_hangouts.navigation.NavDestination
 import com.example.ft_hangouts.ui.components.ConversationItem
-import com.example.ft_hangouts.viewmodel.AppViewModel
+import com.example.ft_hangouts.viewmodel.ChatViewModel
 
 @Composable
 fun ConversationScreen(
     navController: NavController,
-    viewModel: AppViewModel = viewModel()
+    viewModel: ChatViewModel = viewModel()
 ) {
     val uiState = viewModel.conversationListUiState
 

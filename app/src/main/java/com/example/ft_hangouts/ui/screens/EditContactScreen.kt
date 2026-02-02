@@ -24,28 +24,20 @@ import com.example.ft_hangouts.R
 import com.example.ft_hangouts.ui.components.AvatarInput
 import com.example.ft_hangouts.ui.components.ContactForm
 import com.example.ft_hangouts.ui.components.RowButtons
-import com.example.ft_hangouts.viewmodel.AppViewModel
+import com.example.ft_hangouts.viewmodel.ContactFormViewModel
 
 @SuppressLint("LocalContextGetResourceValueCall")
 @Composable
 fun EditContactScreen(
     contactId: Long,
     navController: NavController,
-    viewModel: AppViewModel = viewModel()
+    viewModel: ContactFormViewModel = viewModel()
 ) {
     val context = LocalContext.current
     val formState = viewModel.contactFormUiState
-    val detailState = viewModel.contactDetailUiState
 
     LaunchedEffect(contactId) {
-        viewModel.getContactById(contactId)
-    }
-
-    if (detailState.isLoading || detailState.contact == null) {
-        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            CircularProgressIndicator()
-        }
-        return
+        viewModel.setContactForEdit(contactId)
     }
 
     Scaffold(

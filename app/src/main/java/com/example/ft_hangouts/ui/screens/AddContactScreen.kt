@@ -22,13 +22,13 @@ import com.example.ft_hangouts.R
 import com.example.ft_hangouts.ui.components.AvatarInput
 import com.example.ft_hangouts.ui.components.ContactForm
 import com.example.ft_hangouts.ui.components.RowButtons
-import com.example.ft_hangouts.viewmodel.AppViewModel
+import com.example.ft_hangouts.viewmodel.ContactFormViewModel
 
 @SuppressLint("LocalContextGetResourceValueCall")
 @Composable
 fun AddContactScreen(
     navController: NavController,
-    viewModel: AppViewModel = viewModel()
+    viewModel: ContactFormViewModel = viewModel()
 ) {
     val uiState = viewModel.contactFormUiState
     val context = LocalContext.current

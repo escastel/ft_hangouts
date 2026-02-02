@@ -26,14 +26,14 @@ import com.example.ft_hangouts.ui.components.ContactAvatar
 import com.example.ft_hangouts.ui.components.CustomTopBar
 import com.example.ft_hangouts.ui.components.InfoRow
 import com.example.ft_hangouts.ui.components.ContactDetailBottomBar
-import com.example.ft_hangouts.viewmodel.AppViewModel
+import com.example.ft_hangouts.viewmodel.ContactViewModel
 
 @SuppressLint("LocalContextGetResourceValueCall")
 @Composable
 fun ContactDetailScreen(
     contactId: Long,
     navController: NavController,
-    viewModel: AppViewModel = viewModel()
+    viewModel: ContactViewModel = viewModel()
 ) {
     val uiState = viewModel.contactDetailUiState
     val contact = uiState.contact
