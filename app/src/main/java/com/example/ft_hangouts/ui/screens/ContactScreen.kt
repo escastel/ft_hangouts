@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -22,14 +23,16 @@ fun ContactScreen(
     modifier: Modifier = Modifier,
     viewModel: AppViewModel = viewModel(),
 ) {
-    val contactList = viewModel.contacts
+    val uiState = viewModel.contactListUiState
 
     LaunchedEffect(Unit) {
         viewModel.loadContacts()
     }
 
     Box(modifier = modifier.fillMaxSize()) {
-        if (contactList.isEmpty()) {
+        if (uiState.isLoading) {
+            CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+        } else if (uiState.contacts.isEmpty()) {
             Text(
                 text = stringResource(R.string.no_contacts),
                 modifier = Modifier.align(Alignment.Center),
@@ -37,7 +40,7 @@ fun ContactScreen(
             )
         } else {
             LazyColumn {
-                items(contactList) { contact ->
+                items(uiState.contacts) { contact ->
                     ContactCard(
                         contact = contact,
                         onClick = {

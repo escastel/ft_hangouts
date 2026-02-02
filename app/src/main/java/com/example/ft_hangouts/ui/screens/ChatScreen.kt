@@ -6,12 +6,10 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.content.pm.PackageManager
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.compose.ui.platform.LocalContext
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -32,43 +30,31 @@ import com.example.ft_hangouts.ui.components.ChatInputBar
 import com.example.ft_hangouts.viewmodel.AppViewModel
 
 @SuppressLint("LocalContextGetResourceValueCall")
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChatScreen(
     contactId: Long,
     navController: NavController,
     viewModel: AppViewModel = viewModel()
 ) {
+    val uiState = viewModel.chatUiState
+    val context = LocalContext.current
+    val focusManager = LocalFocusManager.current
+    val listState = rememberLazyListState()
+
     LaunchedEffect(contactId) {
-        viewModel.getContactById(contactId)
         viewModel.loadMessages(contactId)
     }
 
-    val contact = viewModel.selectedContact
-    val messages = viewModel.messages
-
-    var inputText by remember { mutableStateOf("") }
-
-    val listState = rememberLazyListState()
-    val focusManager = LocalFocusManager.current
-
-    LaunchedEffect(messages.size) {
-        if (messages.isNotEmpty()) {
-            listState.animateScrollToItem(messages.size - 1)
+    LaunchedEffect(uiState.messages.size) {
+        if (uiState.messages.isNotEmpty()) {
+            listState.animateScrollToItem(uiState.messages.size - 1)
         }
     }
 
-    val context = LocalContext.current
     val permissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestMultiplePermissions()
-    ) { permissions ->
-        val sendGranted = permissions[Manifest.permission.SEND_SMS] ?: false
-        val receiveGranted = permissions[Manifest.permission.RECEIVE_SMS] ?: false
+    ) { _ -> }
 
-        if (sendGranted && receiveGranted) {
-            Toast.makeText(context, context.getString(R.string.permissions_granted), Toast.LENGTH_SHORT).show()
-        }
-    }
     DisposableEffect(Unit) {
         val receiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
@@ -94,33 +80,31 @@ fun ChatScreen(
     Scaffold(
         topBar = {
             CustomTopBar(
-                title = contact?.name ?: stringResource(R.string.chat_default_title),
+                title = uiState.contact?.name ?: stringResource(R.string.chat_default_title),
                 onBackClick = { navController.popBackStack() },
                 onColorSelected = null
             )
         },
         bottomBar = {
             ChatInputBar(
-                text = inputText,
-                onTextChange = { inputText = it },
+                text = uiState.inputText,
+                onTextChange = { viewModel.updateChatInput(it) },
                 onSendClick = {
-                    val hasPermission = ContextCompat.checkSelfPermission(
-                        context,
-                        Manifest.permission.SEND_SMS
-                    ) == PackageManager.PERMISSION_GRANTED
-
-                    if (hasPermission) {
-                        viewModel.sendMessage(contactId, inputText, context)
-                        inputText = ""
-                        focusManager.clearFocus()
-                    } else {
-                        permissionLauncher.launch(
-                            arrayOf(
-                                Manifest.permission.SEND_SMS,
-                                Manifest.permission.RECEIVE_SMS
+                    viewModel.onSendMessage(
+                        contactId = contactId,
+                        context = context,
+                        onPermissionNeeded = {
+                            permissionLauncher.launch(
+                                arrayOf(
+                                    Manifest.permission.SEND_SMS,
+                                    Manifest.permission.RECEIVE_SMS
+                                )
                             )
-                        )
-                    }
+                        },
+                        onMessageSent = {
+                            focusManager.clearFocus()
+                        }
+                    )
                 }
             )
         }
@@ -139,7 +123,7 @@ fun ChatScreen(
                 contentPadding = PaddingValues(vertical = 16.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                items(messages) { message ->
+                items(uiState.messages) { message ->
                     MessageBubble(message = message)
                 }
             }

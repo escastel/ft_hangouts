@@ -1,7 +1,6 @@
 package com.example.ft_hangouts.ui.screens
 
 import android.annotation.SuppressLint
-import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,7 +21,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.ft_hangouts.R
-import com.example.ft_hangouts.data.models.Contact
 import com.example.ft_hangouts.ui.components.AvatarInput
 import com.example.ft_hangouts.ui.components.ContactForm
 import com.example.ft_hangouts.ui.components.RowButtons
@@ -36,45 +34,27 @@ fun EditContactScreen(
     viewModel: AppViewModel = viewModel()
 ) {
     val context = LocalContext.current
+    val formState = viewModel.contactFormUiState
+    val detailState = viewModel.contactDetailUiState
 
     LaunchedEffect(contactId) {
         viewModel.getContactById(contactId)
     }
-    val contactToEdit = viewModel.selectedContact
 
-    var name by remember(contactToEdit) { mutableStateOf(contactToEdit?.name ?: "") }
-    var phoneNumber by remember(contactToEdit) { mutableStateOf(contactToEdit?.phoneNumber ?: "") }
-    var email by remember(contactToEdit) { mutableStateOf(contactToEdit?.email ?: "") }
-    var address by remember(contactToEdit) { mutableStateOf(contactToEdit?.address ?: "") }
-    var notes by remember(contactToEdit) { mutableStateOf(contactToEdit?.notes ?: "") }
-    var imageUri by remember(contactToEdit) { mutableStateOf(contactToEdit?.imageUri ?: "") }
-
-    if (contactToEdit == null) {
+    if (detailState.isLoading || detailState.contact == null) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             CircularProgressIndicator()
         }
         return
     }
+
     Scaffold(
         bottomBar = {
             RowButtons(
                 buttonText = stringResource(R.string.update),
                 onCancel = { navController.popBackStack() },
                 onSave = {
-                    if (name.isBlank() || phoneNumber.isBlank()) {
-                        Toast.makeText(context, context.getString(R.string.error_required_fields), Toast.LENGTH_SHORT).show()
-                    } else {
-                        val updatedContact = Contact(
-                            id = contactId,
-                            name = name,
-                            phoneNumber = phoneNumber,
-                            email = email,
-                            address = address,
-                            notes = notes,
-                            imageUri = imageUri
-                        )
-                        viewModel.updateContact(updatedContact)
-                        Toast.makeText(context, context.getString(R.string.contact_updated), Toast.LENGTH_SHORT).show()
+                    viewModel.onUpdateContact(contactId, context) {
                         navController.popBackStack()
                     }
                 }
@@ -91,21 +71,26 @@ fun EditContactScreen(
             verticalArrangement = Arrangement.Center
         ) {
             AvatarInput(
-                name = name,
-                imageUri = imageUri,
-                onImageSelected = { newUri -> imageUri = newUri },
-                onImageRemoved = { imageUri = "" },
+                name = formState.name,
+                imageUri = formState.imageUri,
+                onImageSelected = { newUri -> viewModel.updateContactForm(imageUri = newUri) },
+                onImageRemoved = { viewModel.updateContactForm(imageUri = null) },
                 isEditMode = true
             )
 
             Spacer(modifier = Modifier.height(30.dp))
 
             ContactForm(
-                name = name, onNameChange = { name = it },
-                phoneNumber = phoneNumber, onPhoneChange = { phoneNumber = it },
-                email = email, onEmailChange = { email = it },
-                address = address, onAddressChange = { address = it },
-                notes = notes, onNotesChange = { notes = it }
+                name = formState.name, 
+                onNameChange = { viewModel.updateContactForm(name = it) },
+                phoneNumber = formState.phoneNumber, 
+                onPhoneChange = { viewModel.updateContactForm(phoneNumber = it) },
+                email = formState.email, 
+                onEmailChange = { viewModel.updateContactForm(email = it) },
+                address = formState.address, 
+                onAddressChange = { viewModel.updateContactForm(address = it) },
+                notes = formState.notes, 
+                onNotesChange = { viewModel.updateContactForm(notes = it) }
             )
         }
     }

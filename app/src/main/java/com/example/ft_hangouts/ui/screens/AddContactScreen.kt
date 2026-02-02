@@ -1,7 +1,6 @@
 package com.example.ft_hangouts.ui.screens
 
 import android.annotation.SuppressLint
-import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -20,7 +19,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.ft_hangouts.R
-import com.example.ft_hangouts.data.models.Contact
 import com.example.ft_hangouts.ui.components.AvatarInput
 import com.example.ft_hangouts.ui.components.ContactForm
 import com.example.ft_hangouts.ui.components.RowButtons
@@ -32,14 +30,12 @@ fun AddContactScreen(
     navController: NavController,
     viewModel: AppViewModel = viewModel()
 ) {
-    var name by remember { mutableStateOf("") }
-    var phoneNumber by remember { mutableStateOf("") }
-    var email by remember { mutableStateOf("") }
-    var address by remember { mutableStateOf("") }
-    var notes by remember { mutableStateOf("") }
-    var imageUri by remember { mutableStateOf("") }
-
+    val uiState = viewModel.contactFormUiState
     val context = LocalContext.current
+
+    LaunchedEffect(Unit) {
+        viewModel.resetContactForm()
+    }
 
     Scaffold(
         bottomBar = {
@@ -47,19 +43,7 @@ fun AddContactScreen(
                 buttonText = stringResource(R.string.save),
                 onCancel = { navController.popBackStack() },
                 onSave = {
-                    if (name.isBlank() || phoneNumber.isBlank()) {
-                        Toast.makeText(context, context.getString(R.string.error_required_fields), Toast.LENGTH_SHORT).show()
-                    } else {
-                        val newContact = Contact(
-                            name = name,
-                            phoneNumber = phoneNumber,
-                            email = email,
-                            address = address,
-                            notes = notes,
-                            imageUri = imageUri
-                        )
-                        viewModel.addContact(newContact)
-                        Toast.makeText(context, context.getString(R.string.contact_saved), Toast.LENGTH_SHORT).show()
+                    viewModel.onSaveContact(context) {
                         navController.popBackStack()
                     }
                 }
@@ -76,20 +60,26 @@ fun AddContactScreen(
             verticalArrangement = Arrangement.Center
         ) {
             AvatarInput(
-                name = name,
-                imageUri = imageUri,
-                onImageSelected = { newUri -> imageUri = newUri },
-                onImageRemoved = { imageUri = "" },
-                isEditMode = false)
+                name = uiState.name,
+                imageUri = uiState.imageUri,
+                onImageSelected = { newUri -> viewModel.updateContactForm(imageUri = newUri) },
+                onImageRemoved = { viewModel.updateContactForm(imageUri = null) },
+                isEditMode = false
+            )
 
             Spacer(modifier = Modifier.height(30.dp))
 
             ContactForm(
-                name = name, onNameChange = { name = it },
-                phoneNumber = phoneNumber, onPhoneChange = { phoneNumber = it },
-                email = email, onEmailChange = { email = it },
-                address = address, onAddressChange = { address = it },
-                notes = notes, onNotesChange = { notes = it }
+                name = uiState.name, 
+                onNameChange = { viewModel.updateContactForm(name = it) },
+                phoneNumber = uiState.phoneNumber, 
+                onPhoneChange = { viewModel.updateContactForm(phoneNumber = it) },
+                email = uiState.email, 
+                onEmailChange = { viewModel.updateContactForm(email = it) },
+                address = uiState.address, 
+                onAddressChange = { viewModel.updateContactForm(address = it) },
+                notes = uiState.notes, 
+                onNotesChange = { viewModel.updateContactForm(notes = it) }
             )
         }
     }

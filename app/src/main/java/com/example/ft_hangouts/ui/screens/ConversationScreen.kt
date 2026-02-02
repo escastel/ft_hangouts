@@ -23,28 +23,33 @@ fun ConversationScreen(
     navController: NavController,
     viewModel: AppViewModel = viewModel()
 ) {
+    val uiState = viewModel.conversationListUiState
+
     LaunchedEffect(Unit) {
         viewModel.loadConversations()
     }
 
-    val conversations = viewModel.conversations
-
-    if (conversations.isEmpty()) {
-        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            Text(stringResource(R.string.no_messages), color = Color.Gray)
-        }
-        return
-    }
-
-    LazyColumn(
-        contentPadding = PaddingValues(16.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        items(conversations) { chat ->
-            ConversationItem(chat = chat) {
-                navController.navigate(NavDestination.Chat.createRoute(chat.contactId))
+    Box(modifier = Modifier.fillMaxSize()) {
+        if (uiState.isLoading) {
+            CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+        } else if (uiState.conversations.isEmpty()) {
+            Text(
+                text = stringResource(R.string.no_messages),
+                modifier = Modifier.align(Alignment.Center),
+                color = Color.Gray
+            )
+        } else {
+            LazyColumn(
+                contentPadding = PaddingValues(16.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                items(uiState.conversations) { chat ->
+                    ConversationItem(chat = chat) {
+                        navController.navigate(NavDestination.Chat.createRoute(chat.contactId))
+                    }
+                    Divider(color = Color.LightGray.copy(alpha = 0.5f))
+                }
             }
-            Divider(color = Color.LightGray.copy(alpha = 0.5f))
         }
     }
 }

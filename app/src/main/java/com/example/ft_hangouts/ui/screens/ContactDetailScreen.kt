@@ -16,10 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import android.content.Intent
-import android.net.Uri
 import androidx.compose.ui.platform.LocalContext
-import android.widget.Toast
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -37,21 +34,23 @@ fun ContactDetailScreen(
     navController: NavController,
     viewModel: AppViewModel = viewModel()
 ) {
+    val uiState = viewModel.contactDetailUiState
+    val contact = uiState.contact
+    val context = LocalContext.current
+
     LaunchedEffect(contactId) {
         viewModel.getContactById(contactId)
     }
 
-    val contact = viewModel.selectedContact
-
-    val isUnknown = contact?.name?.startsWith("+") == true ||
-            contact?.name?.firstOrNull()?.isDigit() == true
-
-    if (contact == null) {
+    if (uiState.isLoading || contact == null) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             CircularProgressIndicator()
         }
         return
     }
+
+    val isUnknown = contact.name.startsWith("+") == true ||
+            contact.name.firstOrNull()?.isDigit() == true
 
     Scaffold(
         topBar = {
@@ -62,23 +61,16 @@ fun ContactDetailScreen(
             )
         },
         bottomBar = {
+            //TODO: Separar en un componente individual
             BottomAppBar(
                 actions = {
-                    val context = LocalContext.current
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceEvenly,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         IconButton(onClick = {
-                            if (contact.phoneNumber.isNotBlank()) {
-                                val intent = Intent(Intent.ACTION_DIAL).apply {
-                                    data = Uri.parse("tel:${contact.phoneNumber}")
-                                }
-                                context.startActivity(intent)
-                            } else {
-                                Toast.makeText(context, context.getString(R.string.error_no_phone), Toast.LENGTH_SHORT).show()
-                            }
+                            viewModel.onCallContact(contact.phoneNumber, context)
                         }) {
                             Icon(
                                 painter = painterResource(R.drawable.ic_call),
@@ -102,8 +94,9 @@ fun ContactDetailScreen(
                         }
 
                         IconButton(onClick = {
-                            viewModel.deleteContact(contact.id)
-                            navController.popBackStack()
+                            viewModel.onDeleteContact(contact.id) {
+                                navController.popBackStack()
+                            }
                         }) {
                             Icon(
                                 painter = painterResource(R.drawable.ic_delete),
@@ -161,7 +154,7 @@ fun ContactDetailScreen(
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            if (contact.email.isNotEmpty() && contact.email.isNotBlank() || contact.address.isNotEmpty() && contact.address.isNotBlank()|| contact.notes.isNotEmpty() && contact.notes.isNotBlank()){
+            if (contact.email.isNotBlank() || contact.address.isNotBlank() || contact.notes.isNotBlank()){
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     colors = CardDefaults.cardColors(
