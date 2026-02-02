@@ -12,17 +12,17 @@ sealed class TopLevelDestination(
     object Contacts: TopLevelDestination(
         route = NavDestination.Contacts.route,
         icon = R.drawable.ic_person,
-        label = R.string.app_name
+        label = R.string.contacts
     )
 
-    object Messages: TopLevelDestination(
+    object Conversations: TopLevelDestination(
         route = NavDestination.Conversations.route,
         icon = R.drawable.ic_message,
-        label = R.string.app_name
+        label = R.string.messages
     )
 }
 
 val topLevelDestinations = listOf(
     TopLevelDestination.Contacts,
-    TopLevelDestination.Messages
+    TopLevelDestination.Conversations
 )

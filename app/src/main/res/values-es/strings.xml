@@ -1,0 +1,49 @@
+<resources>
+    <string name="app_name">ft_hangouts</string>
+
+    <string name="contacts">Contactos</string>
+    <string name="messages">Mensajes</string>
+    <string name="chat_default_title">Chat</string>
+    <string name="back">Volver</string>
+    <string name="settings">Ajustes</string>
+
+    <string name="save">Guardar</string>
+    <string name="update">Actualizar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="edit">Editar</string>
+    <string name="delete">Borrar</string>
+    <string name="send">Enviar</string>
+    <string name="sms">SMS</string>
+    <string name="call">Llamar</string>
+
+    <string name="form_name">Nombre</string>
+    <string name="form_phone">Teléfono</string>
+    <string name="form_email">Correo electrónico</string>
+    <string name="form_address">Dirección</string>
+    <string name="form_notes">Notas</string>
+    <string name="type_message">Escribe un mensaje...</string>
+
+    <string name="label_name">Nombre</string>
+    <string name="label_phone">Teléfono</string>
+    <string name="label_email">Correo electrónico</string>
+    <string name="label_address">Dirección</string>
+    <string name="label_notes">Nota</string>
+
+    <string name="error_required_fields">Nombre y Teléfono son obligatorios</string>
+    <string name="contact_saved">Contacto guardado</string>
+    <string name="contact_updated">Contacto actualizado</string>
+    <string name="error_sms_send">Error al enviar SMS: %1$s</string>
+    <string name="error_no_phone">El contacto no tiene número de teléfono</string>
+    <string name="permissions_granted">Permisos completos</string>
+    <string name="background_msg">App en background desde: %1$s</string>
+    <string name="no_contacts">No hay contactos guardados</string>
+    <string name="no_messages">No hay mensajes recientes</string>
+
+    <string name="color_green">Verde</string>
+    <string name="color_blue">Azul</string>
+    <string name="color_pink">Rosa</string>
+    <string name="color_purple">Morado</string>
+
+    <string name="contact_image">Imagen del contacto</string>
+    <string name="change_photo">Cambiar foto</string>
+</resources>

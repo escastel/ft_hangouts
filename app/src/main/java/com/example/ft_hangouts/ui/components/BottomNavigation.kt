@@ -31,8 +31,6 @@ fun BottomNavigation(
         modifier = modifier
     ){
         topLevelDestinations.forEach { destination ->
-            val isSelected = currentRoute == destination.route
-
             NavigationBarItem(
                 icon = {
                     Icon(
@@ -43,7 +41,7 @@ fun BottomNavigation(
                 label = {
                     Text(stringResource(destination.label))
                 },
-                selected = isSelected,
+                selected = currentRoute == destination.route,
                 onClick = {
                     if (currentRoute != destination.route) {
                         navController.navigate(destination.route) {
@@ -58,7 +56,7 @@ fun BottomNavigation(
                 colors = NavigationBarItemDefaults.colors(
                     selectedIconColor = MaterialTheme.colorScheme.onSecondaryContainer,
                     selectedTextColor = MaterialTheme.colorScheme.onSurface,
-                    indicatorColor = MaterialTheme.colorScheme.secondaryContainer,
+                    indicatorColor = MaterialTheme.colorScheme.primaryContainer,
                     unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
                     unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -73,7 +71,7 @@ fun BottomNavigationPreview() {
     val navController = rememberNavController()
     Ft_hangoutsTheme {
        BottomNavigation(
-            navController,
+            navController
         )
     }
 }

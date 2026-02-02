@@ -33,7 +33,6 @@ fun NavigationRailBar(
         containerColor = MaterialTheme.colorScheme.background,
     ) {
         topLevelDestinations.forEach { destination ->
-            val isSelected = currentRoute == destination.route
             NavigationRailItem(
                 icon = {
                     Icon(
