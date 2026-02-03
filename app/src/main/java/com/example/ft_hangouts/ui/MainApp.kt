@@ -125,7 +125,9 @@ fun MainAppLandscape(navController: NavHostController) {
 
         Surface(color = MaterialTheme.colorScheme.background) {
             Row(modifier = Modifier.fillMaxSize()) {
-                NavigationRailBar(navController = navController)
+                if (isMainScreen) {
+                    NavigationRailBar(navController = navController)
+                }
 
                 Scaffold(
                     topBar = {

@@ -55,11 +55,13 @@ fun EditContactScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .padding(horizontal = 24.dp)
+                .padding(24.dp)
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
+            Spacer(modifier = Modifier.height(24.dp))
+
             AvatarInput(
                 name = formState.firstName,
                 imageUri = formState.imageUri,
