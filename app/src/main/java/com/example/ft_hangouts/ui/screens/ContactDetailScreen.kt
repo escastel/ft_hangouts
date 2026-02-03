@@ -22,6 +22,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.ui.draw.clip
 import com.example.ft_hangouts.R
+import com.example.ft_hangouts.navigation.NavDestination
 import com.example.ft_hangouts.ui.components.ContactAvatar
 import com.example.ft_hangouts.ui.components.CustomTopBar
 import com.example.ft_hangouts.ui.components.InfoRow
@@ -64,8 +65,12 @@ fun ContactDetailScreen(
         bottomBar = {
             ContactDetailBottomBar(
                 onCallClick = { viewModel.onCallContact(contact.phoneNumber, context) },
-                onChatClick = { navController.navigate("chat/${contact.id}") },
-                onEditClick = { navController.navigate("editContact/${contact.id}") },
+                onChatClick = { 
+                    navController.navigate(NavDestination.Chat.createRoute(contact.id)) 
+                },
+                onEditClick = { 
+                    navController.navigate(NavDestination.EditContact.createRoute(contact.id)) 
+                },
                 onDeleteClick = {
                     viewModel.onDeleteContact(contact.id) {
                         navController.popBackStack()

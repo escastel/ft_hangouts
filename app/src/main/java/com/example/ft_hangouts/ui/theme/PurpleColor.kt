@@ -1,4 +1,5 @@
-package com.example.compose
+package com.example.ft_hangouts.ui.theme
+
 import androidx.compose.ui.graphics.Color
 
 val purplePrimaryLight = Color(0xFF784F82)

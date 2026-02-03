@@ -26,48 +26,38 @@ fun NavigationGraph(
         startDestination = NavDestination.Contacts.route,
         modifier = Modifier.padding(padding)
     ){
-        composable(route = NavDestination.Contacts.route){ backStackEntry ->
+        composable(route = NavDestination.Contacts.route){
             ContactScreen(
                 onCardClick = { id ->
-                    navController.navigate(
-                        route = NavDestination.ContactDetail.createRoute(id)
-                    )
+                    navController.navigate(NavDestination.ContactDetail.createRoute(id))
                 },
             )
         }
         composable(route = NavDestination.Conversations.route){
-            ConversationScreen(
-                navController = navController
-            )
+            ConversationScreen(navController = navController)
         }
         composable(route = NavDestination.AddContact.route){
             AddContactScreen(navController)
         }
         composable(
             route = NavDestination.EditContact.route,
-            arguments = listOf(navArgument("contactId") { type = NavType.LongType })
+            arguments = listOf(navArgument("editContactId") { type = NavType.LongType })
         ) { backStackEntry ->
-            val contactId = backStackEntry.arguments?.getLong("contactId") ?: 0L
-            EditContactScreen(
-                contactId = contactId,
-                navController = navController
-            )
+            val contactId = backStackEntry.arguments?.getLong("editContactId") ?: 0L
+            EditContactScreen(contactId = contactId, navController = navController)
         }
         composable(
             route = NavDestination.Chat.route,
-            arguments = listOf(navArgument("contactId") { type = NavType.LongType })
+            arguments = listOf(navArgument("chatContactId") { type = NavType.LongType })
         ){ backStackEntry ->
-            val contactId = backStackEntry.arguments?.getLong("contactId") ?: 0L
-            ChatScreen(
-                contactId = contactId,
-                navController = navController
-            )
+            val contactId = backStackEntry.arguments?.getLong("chatContactId") ?: 0L
+            ChatScreen(contactId = contactId, navController = navController)
         }
         composable(
             route = NavDestination.ContactDetail.route,
-            arguments = listOf(navArgument("contactId") { type = NavType.LongType })
+            arguments = listOf(navArgument("detailContactId") { type = NavType.LongType })
         ) { backStackEntry ->
-            val contactId = backStackEntry.arguments?.getLong("contactId") ?: 0L
+            val contactId = backStackEntry.arguments?.getLong("detailContactId") ?: 0L
             ContactDetailScreen(contactId = contactId, navController = navController)
         }
     }

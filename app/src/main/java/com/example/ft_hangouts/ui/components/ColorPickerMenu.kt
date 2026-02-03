@@ -15,9 +15,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.ft_hangouts.R
-import com.example.compose.greenPrimaryLight
-import com.example.compose.pinkPrimaryLight
-import com.example.compose.purplePrimaryLight
+import com.example.ft_hangouts.ui.theme.greenPrimaryLight
+import com.example.ft_hangouts.ui.theme.pinkPrimaryLight
+import com.example.ft_hangouts.ui.theme.purplePrimaryLight
 import com.example.ft_hangouts.ui.theme.Ft_hangoutsTheme
 import com.example.ft_hangouts.ui.theme.bluePrimaryLight
 
@@ -38,22 +38,22 @@ fun ColorPickerMenu(onColorSelected: (Color) -> Unit) {
             expanded = expanded,
             onDismissRequest = { expanded = false }
         ) {
-            ColorMenuItem(name = "Purple", color = purplePrimaryLight, onClick = {
+            ColorMenuItem(name = stringResource(R.string.color_purple), color = purplePrimaryLight, onClick = {
                 onColorSelected(purplePrimaryLight)
                 expanded = false
             })
 
-            ColorMenuItem(name = "Blue", color = bluePrimaryLight, onClick = {
+            ColorMenuItem(name = stringResource(R.string.color_blue), color = bluePrimaryLight, onClick = {
                 onColorSelected(bluePrimaryLight)
                 expanded = false
             })
 
-            ColorMenuItem(name = "Green", color = greenPrimaryLight, onClick = {
+            ColorMenuItem(name = stringResource(R.string.color_green), color = greenPrimaryLight, onClick = {
                 onColorSelected(greenPrimaryLight)
                 expanded = false
             })
 
-            ColorMenuItem(name = "Pink", color = pinkPrimaryLight, onClick = {
+            ColorMenuItem(name = stringResource(R.string.color_pink), color = pinkPrimaryLight, onClick = {
                 onColorSelected(pinkPrimaryLight)
                 expanded = false
             })
