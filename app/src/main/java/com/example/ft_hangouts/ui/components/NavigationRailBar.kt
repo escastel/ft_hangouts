@@ -48,10 +48,10 @@ fun NavigationRailBar(
                     if (currentRoute != destination.route) {
                         navController.navigate(destination.route) {
                             popUpTo(navController.graph.startDestinationId) {
-                                saveState = true
+                                saveState = false
                             }
                             launchSingleTop = true
-                            restoreState = true
+                            restoreState = false
                         }
                     }
                 },

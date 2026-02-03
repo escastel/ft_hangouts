@@ -41,23 +41,23 @@ fun NavigationGraph(
         }
         composable(
             route = NavDestination.EditContact.route,
-            arguments = listOf(navArgument("editContactId") { type = NavType.LongType })
+            arguments = listOf(navArgument("contactId") { type = NavType.LongType })
         ) { backStackEntry ->
-            val contactId = backStackEntry.arguments?.getLong("editContactId") ?: 0L
+            val contactId = backStackEntry.arguments?.getLong("contactId") ?: 0L
             EditContactScreen(contactId = contactId, navController = navController)
         }
         composable(
             route = NavDestination.Chat.route,
-            arguments = listOf(navArgument("chatContactId") { type = NavType.LongType })
-        ){ backStackEntry ->
-            val contactId = backStackEntry.arguments?.getLong("chatContactId") ?: 0L
+            arguments = listOf(navArgument("contactId") { type = NavType.LongType })
+        ) { backStackEntry ->
+            val contactId = backStackEntry.arguments?.getLong("contactId") ?: 0L
             ChatScreen(contactId = contactId, navController = navController)
         }
         composable(
             route = NavDestination.ContactDetail.route,
-            arguments = listOf(navArgument("detailContactId") { type = NavType.LongType })
+            arguments = listOf(navArgument("contactId") { type = NavType.LongType })
         ) { backStackEntry ->
-            val contactId = backStackEntry.arguments?.getLong("detailContactId") ?: 0L
+            val contactId = backStackEntry.arguments?.getLong("contactId") ?: 0L
             ContactDetailScreen(contactId = contactId, navController = navController)
         }
     }
